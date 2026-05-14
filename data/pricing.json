@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Free GPT",
+    "price": "$0",
+    "summary": "Self-serve AI financial analysis.",
+    "features": ["Plain-English finance prompts", "Snapshot-style analysis", "Cash runway starter questions", "Funding readiness prep"]
+  },
+  {
+    "name": "Starter Lab",
+    "price": "Community",
+    "summary": "Private group, templates, prompts, workflows, and monthly Cash Flow Clinic / AMA.",
+    "features": ["Templates and prompt packs", "Monthly Cash Flow Clinic", "Funding readiness checklists", "Weekly review workflows"]
+  },
+  {
+    "name": "Founder OS",
+    "price": "Done-with-you",
+    "summary": "FinOps-as-a-Service Micro-SaaS with automations, dashboards, reports, reminders, and integrations where available.",
+    "features": ["Automated dashboard layer", "Cash-flow reporting cadence", "Founder reminders", "Integration planning"]
+  },
+  {
+    "name": "Advisor Desk",
+    "price": "Premium",
+    "summary": "Founder OS plus human-in-the-loop review, monthly memo, review call, and financial decision support.",
+    "features": ["Monthly advisor memo", "Review call", "Decision-support notes", "Funding document readiness"]
+  }
+]
