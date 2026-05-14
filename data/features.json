@@ -1,0 +1,10 @@
+[
+  {"name":"Cash Flow Forecast","category":"FinanceOps","description":"Forecast incoming and outgoing cash so owners can see tight zones before they hit."},
+  {"name":"Burn Rate + Runway","category":"FinanceOps","description":"Estimate monthly burn and runway using simple submitted inputs."},
+  {"name":"Funding Readiness Score","category":"Funding Prep","description":"Directional score for revenue, cash flow, time in business, credit posture, documents, and debt load."},
+  {"name":"Cost Leak Detection","category":"Expense Control","description":"Spot subscriptions, vendor creep, and expense categories that need review."},
+  {"name":"Scenario Modeling","category":"Planning","description":"Model what happens if revenue drops, expenses rise, or hiring changes burn."},
+  {"name":"Weekly Financial Review","category":"Operating Rhythm","description":"A repeatable owner review rhythm for cash, receivables, payables, debt, and decisions."},
+  {"name":"Monthly Advisor Memo","category":"Advisor Desk","description":"Plain-English memo summarizing financial posture, risks, and next actions."},
+  {"name":"Financial Snapshot","category":"Lead Magnet","description":"Quick owner-facing snapshot of cash flow, runway, readiness, and bottlenecks."}
+]
