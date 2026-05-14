@@ -8,8 +8,8 @@ info:
     directional business planning outputs only. They do not provide tax, legal, accounting,
     investment, securities, lending approval, underwriting, or guaranteed funding advice.
 servers:
-  - url: https://YOUR-VERCEL-DOMAIN.vercel.app/api/cfo-in-a-box
-    description: Replace with the confirmed Vercel production or preview deployment URL before importing into GPT Builder.
+  - url: https://cfo-in-a-box-jason-feimsters-projects.vercel.app/api/cfo-in-a-box
+    description: CFO-in-a-Box production API base URL for GPT Actions.
 paths:
   /calculate-cash-runway:
     post:
