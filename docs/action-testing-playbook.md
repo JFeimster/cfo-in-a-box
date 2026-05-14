@@ -1,6 +1,6 @@
 # CFO Actions Testing Playbook
 
-This playbook defines practical GPT Preview tests for the CFO-in-a-Box no-auth MVP Actions.
+This playbook defines practical GPT Builder Preview tests for the CFO-in-a-Box no-auth MVP Actions.
 
 Use this after the API is deployed, the `openapi.yaml` server URL is updated, and the schema is imported into the CFO-in-a-Box Custom GPT.
 
@@ -14,7 +14,7 @@ Do not use real client financial records, secrets, API keys, banking credentials
 | B | Funding readiness | `scoreFundingReadiness` | `POST /api/cfo-in-a-box/score-funding-readiness` |
 | C | Cash flow forecast | `generateCashFlowForecast` | `POST /api/cfo-in-a-box/generate-cash-flow-forecast` |
 | D | Expense leak detection | `detectExpenseLeaks` | `POST /api/cfo-in-a-box/detect-expense-leaks` |
-| E | Business decision modeling | `modelBusinessDecision` | `POST /api/cfo-in-a-box/model-business-scenario` |
+| E | Business decision modeling | `modelBusinessDecision` | `POST /api/cfo-in-a-box/business-scenario` |
 
 ## Test Environment Prerequisites
 
@@ -22,7 +22,7 @@ Before running these tests, confirm:
 
 - The app is deployed to Vercel.
 - The deployed API base URL is known.
-- `openapi.yaml` uses the real deployed base URL, not `https://YOUR-VERCEL-DOMAIN.vercel.app`.
+- `openapi.yaml` uses the real deployed base URL, not a placeholder.
 - The schema has been imported into GPT Builder.
 - Authentication is set to **None**.
 - `/privacy` is publicly reachable.
@@ -450,6 +450,12 @@ Model this business decision: I have $40,000 cash, $50,000 monthly revenue, and 
 
 ```text
 modelBusinessDecision
+```
+
+### Expected Endpoint
+
+```text
+POST /api/cfo-in-a-box/business-scenario
 ```
 
 ### Expected Input Values
