@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cfo-in-a-box.local/schemas/financial-snapshot.schema.json",
+  "title": "CFO-in-a-Box Financial Snapshot Input",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "businessType": {
+      "type": "string",
+      "description": "Plain-English business model or industry label."
+    },
+    "cashBalance": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Current available business cash balance."
+    },
+    "monthlyRevenue": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Typical monthly revenue or cash inflow from operations."
+    },
+    "monthlyExpenses": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Typical monthly operating expenses before optional add-ons such as debt, owner draws, and one-time expenses."
+    },
+    "debtPayments": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Monthly debt service or financing payments."
+    },
+    "ownerDraws": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Monthly owner draws, distributions, or owner compensation paid from business cash."
+    },
+    "expectedInflows": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Expected monthly inflows not already included in monthly revenue."
+    },
+    "upcomingLargeExpenses": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Expected monthly or near-term large expenses to include in gross burn."
+    },
+    "fundingGoal": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Optional funding amount the owner is considering."
+    },
+    "biggestConcern": {
+      "type": "string",
+      "description": "Owner's main financial concern or decision question."
+    }
+  },
+  "required": ["businessType", "cashBalance", "monthlyRevenue", "monthlyExpenses"]
+}
