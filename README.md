@@ -1,5 +1,7 @@
 # CFO-in-a-Box
 
+<img width="1344" height="572" alt="Image" src="https://github.com/user-attachments/assets/86f8a509-f32b-415f-9c0b-baa1583a7cfd" />
+
 AI-powered CFO-in-a-Box platform for small business financial clarity, cash flow forecasting, burn rate analysis, funding readiness scoring, and GPT Actions-powered FinanceOps tools.
 
 ## Product summary
