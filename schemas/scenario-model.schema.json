@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cfo-in-a-box.local/schemas/scenario-model.schema.json",
+  "title": "Business Scenario Model",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "decisionType": { "type": "string" },
+    "description": { "type": "string" },
+    "expectedCost": { "type": "number", "minimum": 0 },
+    "expectedMonthlyCost": { "type": "number", "minimum": 0 },
+    "expectedRevenueImpactMonthly": { "type": "number" },
+    "expectedSavingsMonthly": { "type": "number" },
+    "timingMonths": { "type": "number", "minimum": 0 },
+    "cashBalance": { "type": "number", "minimum": 0 },
+    "monthlyRevenue": { "type": "number", "minimum": 0 },
+    "monthlyExpenses": { "type": "number", "minimum": 0 },
+    "grossMargin": { "type": "number", "minimum": 0, "maximum": 1 },
+    "riskTolerance": { "type": "string", "enum": ["low", "medium", "high", "unknown"] },
+    "scenarios": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string", "enum": ["best", "base", "worst"] },
+          "cashImpact": { "type": "number" },
+          "profitImpact": { "type": "number" },
+          "runwayImpactMonths": { "type": "number" },
+          "notes": { "type": "string" }
+        },
+        "required": ["name", "cashImpact", "notes"]
+      }
+    },
+    "recommendation": { "type": "string" },
+    "goNoGoCriteria": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["decisionType", "description", "cashBalance", "riskTolerance"],
+  "description": "Scenario model schema for hiring, pricing, cost, debt, revenue, and investment decisions."
+}

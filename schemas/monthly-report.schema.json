@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cfo-in-a-box.local/schemas/monthly-report.schema.json",
+  "title": "Monthly Financial Report",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "reportMonth": { "type": "string", "pattern": "^\\d{4}-\\d{2}$" },
+    "businessType": { "type": "string" },
+    "revenue": { "type": "number", "minimum": 0 },
+    "cogs": { "type": "number", "minimum": 0 },
+    "grossProfit": { "type": "number" },
+    "grossMargin": { "type": "number" },
+    "operatingExpenses": { "type": "number", "minimum": 0 },
+    "netIncome": { "type": "number" },
+    "netMargin": { "type": "number" },
+    "cashBalance": { "type": "number", "minimum": 0 },
+    "accountsReceivable": { "type": "number", "minimum": 0 },
+    "accountsPayable": { "type": "number", "minimum": 0 },
+    "debtPayments": { "type": "number", "minimum": 0 },
+    "ownerDraws": { "type": "number", "minimum": 0 },
+    "burnRate": { "type": "number" },
+    "runwayMonths": { "type": "number" },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "opportunities": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "recommendedActions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "missingData": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["reportMonth", "businessType", "revenue", "operatingExpenses", "cashBalance"],
+  "description": "Monthly Founder OS / Advisor Desk report schema for planning and decision support."
+}

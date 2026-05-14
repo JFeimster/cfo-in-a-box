@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cfo-in-a-box.local/schemas/funding-readiness.schema.json",
+  "title": "Funding Readiness Score",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "businessType": { "type": "string" },
+    "timeInBusinessMonths": { "type": "integer", "minimum": 0 },
+    "monthlyRevenue": { "type": "number", "minimum": 0 },
+    "cashFlowTrend": { "type": "string" },
+    "documentsAvailable": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "documentsMissing": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "existingDebtPaymentsMonthly": { "type": "number", "minimum": 0 },
+    "fundingAmountRequested": { "type": "number", "minimum": 0 },
+    "useOfFunds": { "type": "string" },
+    "riskNotes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+    "categoryScores": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "financialDocumentation": { "type": "integer", "minimum": 0, "maximum": 20 },
+        "cashFlowHealth": { "type": "integer", "minimum": 0, "maximum": 25 },
+        "profitabilityMargins": { "type": "integer", "minimum": 0, "maximum": 20 },
+        "debtRepaymentCapacity": { "type": "integer", "minimum": 0, "maximum": 15 },
+        "growthStoryUseOfFunds": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "ownerBusinessRiskProfile": { "type": "integer", "minimum": 0, "maximum": 10 }
+      }
+    },
+    "disclaimerRequired": { "type": "boolean", "const": true }
+  },
+  "required": ["businessType", "monthlyRevenue", "documentsAvailable", "fundingAmountRequested", "useOfFunds"],
+  "description": "Funding readiness input/output schema. A score is not an approval, preapproval, offer, commitment, underwriting decision, or guarantee of financing."
+}
