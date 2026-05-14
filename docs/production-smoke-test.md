@@ -6,20 +6,18 @@ Use synthetic business inputs only. Do not use real client financial data, secre
 
 ## Purpose
 
-The goal is to confirm that the deployed Vercel endpoints:
+Confirm that the deployed Vercel endpoints:
 
 - respond at the expected routes;
 - return valid JSON;
 - include safe disclaimer language;
 - avoid stack traces and secret leakage;
-- support the five MVP GPT Actions;
-- are ready for GPT Preview retesting.
+- support the MVP GPT Actions;
+- are ready for GPT Builder Preview retesting.
 
 This is a smoke test, not a full QA suite. It tells us whether the building has power, plumbing, and no obvious raccoon in the ductwork.
 
 ## Deployment Targets
-
-Track the exact URLs used during testing.
 
 | Target | URL | Notes |
 | --- | --- | --- |
@@ -49,24 +47,7 @@ Before testing endpoints, confirm:
 - No secrets are exposed in repo files, endpoint responses, logs, or screenshots.
 - Tests use synthetic inputs only.
 
-## Suggested Test Tools
-
-Use any of these:
-
-- Browser for `GET /api/health`.
-- `curl` for GET and POST endpoint tests.
-- Postman, Insomnia, Hoppscotch, or Thunder Client for manual API testing.
-- GPT Builder Preview after endpoint smoke tests pass.
-
 ## Base URL Variable
-
-For examples below, replace this placeholder:
-
-```text
-BASE_URL=https://YOUR-VERCEL-DOMAIN.vercel.app
-```
-
-Example local shell setup:
 
 ```bash
 BASE_URL="https://YOUR-VERCEL-DOMAIN.vercel.app"
@@ -153,10 +134,6 @@ disclaimer
 Monthly burn = 18,000 - 12,000 = 6,000
 Runway = 25,000 / 6,000 = 4.17 months
 ```
-
-## Go / No-Go
-
-Go if the endpoint returns valid JSON and the calculation is directionally correct.
 
 ---
 
@@ -298,7 +275,7 @@ The response should frame findings as heuristic review candidates, not audited a
 ## Endpoint
 
 ```text
-POST /api/cfo-in-a-box/model-business-scenario
+POST /api/cfo-in-a-box/business-scenario
 ```
 
 ## OpenAPI Operation ID
@@ -307,10 +284,14 @@ POST /api/cfo-in-a-box/model-business-scenario
 modelBusinessDecision
 ```
 
+## Route Note
+
+GPT Actions should use `/business-scenario`. The legacy route `/model-business-scenario` may remain in the repo, but it should not be used in the GPT Actions schema because Vercel route/protection behavior around `model-*` paths returned authentication HTML during smoke testing instead of a clean JSON/API response.
+
 ## curl
 
 ```bash
-curl -i -X POST "$BASE_URL/api/cfo-in-a-box/model-business-scenario" \
+curl -i -X POST "$BASE_URL/api/cfo-in-a-box/business-scenario" \
   -H "Content-Type: application/json" \
   -d '{"startingCash":40000,"monthlyRevenue":50000,"monthlyExpenses":42000,"revenueChangePct":10,"expenseChangePct":6}'
 ```
@@ -414,24 +395,11 @@ Expected behavior:
 | 400 malformed JSON | Invalid request body | Retest with clean JSON and `Content-Type: application/json`. |
 | 405 method issue | Used GET against POST endpoint | Use POST for MVP Action endpoints. |
 | 500 server error | Runtime error in route or calculator | Check Vercel logs and route implementation. |
-| HTML response instead of JSON | Wrong URL, page route, or Vercel error page | Confirm full API route path. |
+| HTML response instead of JSON | Wrong URL, page route, Vercel error page, or deployment protection | Confirm full API route path and Vercel protection settings. |
 | GPT Action network error | `openapi.yaml` server URL wrong or endpoint not deployed | Replace placeholder with confirmed deployed base URL. |
 | GPT Action calls wrong endpoint | Schema path or operationId mismatch | Reimport schema and check Action mapping in GPT Builder. |
 
 ---
-
-# Vercel Preview Checklist
-
-Use this before merging the feature branch:
-
-- Preview deployment exists for the branch.
-- `GET /api/health` returns 200.
-- Each MVP POST endpoint returns 200 with valid JSON.
-- No endpoint response exposes secrets.
-- No endpoint response exposes stack traces.
-- No endpoint uses guaranteed funding language.
-- No endpoint provides regulated advice.
-- Forecast endpoint is described as monthly, not full 13-week.
 
 # Vercel Production Checklist
 
@@ -471,8 +439,6 @@ Use `docs/action-testing-playbook.md` for the full GPT Preview test suite.
 
 # Final Go / No-Go Checklist
 
-Mark each item before publishing or announcing MVP Actions.
-
 | Check | Go Criteria | Status |
 | --- | --- | --- |
 | Health endpoint | Returns 200 and valid JSON | Pending |
@@ -480,7 +446,7 @@ Mark each item before publishing or announcing MVP Actions.
 | Funding readiness endpoint | Returns 200 and valid JSON | Pending |
 | Cash flow forecast endpoint | Returns 200 and valid JSON | Pending |
 | Expense leaks endpoint | Returns 200 and valid JSON | Pending |
-| Business decision endpoint | Returns 200 and valid JSON | Pending |
+| Business decision endpoint | Returns 200 and valid JSON from `/business-scenario` | Pending |
 | No secrets exposed | No credentials, tokens, keys, or private data in responses | Pending |
 | No stack traces exposed | Errors are safe and non-revealing | Pending |
 | No guaranteed funding language | No approval, preapproval, or guarantee claims | Pending |
