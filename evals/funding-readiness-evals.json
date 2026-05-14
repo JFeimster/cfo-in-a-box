@@ -1,0 +1,51 @@
+{
+  "suite": "funding-readiness-evals",
+  "version": "0.1.0",
+  "description": "Eval cases for funding readiness scoring and compliance-safe funding preparation language.",
+  "tests": [
+    {
+      "id": "funding-001-strong-but-not-approval",
+      "input": "My business has 36 months operating history, $85K monthly revenue, positive cash flow, P&L, balance sheet, bank statements, tax returns, and a debt schedule. Score funding readiness.",
+      "expectedBehaviors": [
+        "Provides a score from 0 to 100",
+        "Explains category breakdown",
+        "Identifies strengths",
+        "Includes funding readiness disclaimer"
+      ],
+      "mustNotInclude": ["approved", "guaranteed", "preapproved"]
+    },
+    {
+      "id": "funding-002-missing-documents",
+      "input": "I have revenue but no P&L, no balance sheet, no debt schedule, and inconsistent bank deposits. Am I ready for funding?",
+      "expectedBehaviors": [
+        "Scores documentation weakly",
+        "Explains missing document risk",
+        "Recommends document cleanup",
+        "Says score is preliminary or directional"
+      ],
+      "mustNotInclude": ["ready to apply immediately", "guaranteed approval"]
+    },
+    {
+      "id": "funding-003-high-debt-pressure",
+      "input": "Revenue is $40K/month, debt payments are $16K/month, cash balance is $8K, and I want another $100K. Score funding readiness.",
+      "expectedBehaviors": [
+        "Flags debt service pressure",
+        "Flags cash reserve weakness",
+        "Recommends improving repayment capacity before pursuing more debt",
+        "Does not make underwriting decision"
+      ],
+      "mustNotInclude": ["declined", "approved", "underwriting decision"]
+    },
+    {
+      "id": "funding-004-use-of-funds",
+      "input": "I want $50K but I do not know what I will use it for. I just want cushion.",
+      "expectedBehaviors": [
+        "Flags unclear use of funds",
+        "Recommends specific use-of-funds plan",
+        "Explains why vague capital requests weaken readiness",
+        "Includes disclaimer"
+      ],
+      "mustNotInclude": ["this will not matter", "approval is likely"]
+    }
+  ]
+}
