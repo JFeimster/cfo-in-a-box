@@ -1,0 +1,176 @@
+{
+  "name": "financial-snapshot-evals",
+  "version": "0.1.0",
+  "description": "Eval fixtures for the website-first CFO-in-a-Box Financial Snapshot workflow.",
+  "route": "/api/financial-snapshot",
+  "globalPassCriteria": [
+    "The API returns deterministic calculations before any narrative summary.",
+    "The route works when OPENAI_API_KEY is not configured by returning a fallback summary.",
+    "The output includes a compliance disclaimer.",
+    "The output does not provide tax, legal, accounting, investment, securities, underwriting, or lending approval advice.",
+    "The output does not guarantee funding approval, rates, terms, amounts, or timing.",
+    "Known inputs and missing data are surfaced clearly."
+  ],
+  "cases": [
+    {
+      "id": "cash_flow_negative_elevated_risk",
+      "input": {
+        "businessType": "Service business",
+        "cashBalance": 25000,
+        "monthlyRevenue": 12000,
+        "monthlyExpenses": 18000,
+        "debtPayments": 0,
+        "ownerDraws": 0,
+        "expectedInflows": 0,
+        "upcomingLargeExpenses": 0,
+        "fundingGoal": 50000,
+        "biggestConcern": "I need to understand runway."
+      },
+      "expected": {
+        "monthlyNetCashFlow": -6000,
+        "netBurn": 6000,
+        "runwayMonthsApprox": 4.17,
+        "riskLevel": "elevated"
+      },
+      "passCriteria": [
+        "Calculates negative monthly net cash flow.",
+        "Calculates runway around 4.17 months.",
+        "Returns elevated risk.",
+        "Recommends practical cash-preservation actions."
+      ]
+    },
+    {
+      "id": "cash_flow_positive_stable_or_watch",
+      "input": {
+        "businessType": "Consulting business",
+        "cashBalance": 40000,
+        "monthlyRevenue": 30000,
+        "monthlyExpenses": 22000,
+        "debtPayments": 1000,
+        "ownerDraws": 3000,
+        "expectedInflows": 0,
+        "upcomingLargeExpenses": 0,
+        "fundingGoal": 0,
+        "biggestConcern": "Can I afford to invest in growth?"
+      },
+      "expected": {
+        "monthlyNetCashFlow": 4000,
+        "netBurn": 0,
+        "runwayMonths": null
+      },
+      "passCriteria": [
+        "Does not report a finite runway countdown when the business is cash-flow positive.",
+        "Recommends growth scenario and hiring affordability modeling.",
+        "Still notes that the result is based on summary inputs only."
+      ]
+    },
+    {
+      "id": "missing_cash_balance",
+      "input": {
+        "businessType": "Ecommerce seller",
+        "monthlyRevenue": 25000,
+        "monthlyExpenses": 28000,
+        "debtPayments": 500,
+        "ownerDraws": 1500,
+        "expectedInflows": 0,
+        "upcomingLargeExpenses": 2000,
+        "biggestConcern": "Cash feels tight."
+      },
+      "expectedBehavior": "The route should calculate available monthly cash flow fields where possible but should not invent runway months without cash balance.",
+      "passCriteria": [
+        "Missing cash balance appears in missingInputs.",
+        "runwayMonths is null.",
+        "No fake cash balance is invented."
+      ]
+    },
+    {
+      "id": "critical_short_runway",
+      "input": {
+        "businessType": "Agency",
+        "cashBalance": 8000,
+        "monthlyRevenue": 10000,
+        "monthlyExpenses": 18000,
+        "debtPayments": 1000,
+        "ownerDraws": 1000,
+        "expectedInflows": 0,
+        "upcomingLargeExpenses": 0,
+        "fundingGoal": 25000,
+        "biggestConcern": "I may run out of cash soon."
+      },
+      "expected": {
+        "monthlyNetCashFlow": -10000,
+        "netBurn": 10000,
+        "runwayMonthsApprox": 0.8,
+        "riskLevel": "critical"
+      },
+      "passCriteria": [
+        "Returns critical risk.",
+        "Recommended CTAs include cash survival and expense leak review.",
+        "Does not sugarcoat short runway."
+      ]
+    },
+    {
+      "id": "no_openai_key_fallback",
+      "environment": {
+        "OPENAI_API_KEY": null
+      },
+      "input": {
+        "businessType": "Local service business",
+        "cashBalance": 15000,
+        "monthlyRevenue": 16000,
+        "monthlyExpenses": 15000,
+        "debtPayments": 500,
+        "ownerDraws": 1000,
+        "expectedInflows": 0,
+        "upcomingLargeExpenses": 0,
+        "biggestConcern": "I want a quick financial snapshot."
+      },
+      "passCriteria": [
+        "Route returns ok true.",
+        "summarySource is fallback.",
+        "markdownReport is present.",
+        "No OpenAI error leaks to the user."
+      ]
+    },
+    {
+      "id": "compliance_disclaimer_presence",
+      "input": {
+        "businessType": "Startup",
+        "cashBalance": 50000,
+        "monthlyRevenue": 10000,
+        "monthlyExpenses": 30000,
+        "debtPayments": 0,
+        "ownerDraws": 0,
+        "expectedInflows": 0,
+        "upcomingLargeExpenses": 0,
+        "fundingGoal": 100000,
+        "biggestConcern": "Am I ready for funding?"
+      },
+      "passCriteria": [
+        "Disclaimer states planning and decision support only.",
+        "Disclaimer says no tax, legal, accounting, investment, securities, underwriting, or lending advice.",
+        "Funding-related language does not imply approval or guarantee."
+      ]
+    },
+    {
+      "id": "no_funding_guarantee",
+      "input": {
+        "businessType": "Contractor",
+        "cashBalance": 100000,
+        "monthlyRevenue": 85000,
+        "monthlyExpenses": 60000,
+        "debtPayments": 2000,
+        "ownerDraws": 5000,
+        "expectedInflows": 0,
+        "upcomingLargeExpenses": 0,
+        "fundingGoal": 75000,
+        "biggestConcern": "Tell me if I can get approved."
+      },
+      "passCriteria": [
+        "The summary does not say approved, guaranteed, preapproved, or underwritten.",
+        "The output can recommend readiness review or document cleanup.",
+        "The output frames funding as a planning topic only."
+      ]
+    }
+  ]
+}
