@@ -1,138 +1,519 @@
 openapi: 3.1.0
 info:
   title: CFO-in-a-Box GPT Actions API
-  version: 0.1.0
-  description: No-auth FinanceOps API routes for calculators, scoring, and generators.
+  version: 0.2.0
+  description: >-
+    No-auth CFO-in-a-Box API routes for planning calculators, funding readiness scoring,
+    expense leak detection, and business decision support. These endpoints provide
+    directional business planning outputs only. They do not provide tax, legal, accounting,
+    investment, securities, lending approval, underwriting, or guaranteed funding advice.
 servers:
   - url: https://YOUR-VERCEL-DOMAIN.vercel.app/api/cfo-in-a-box
+    description: Replace with the confirmed Vercel production or preview deployment URL before importing into GPT Builder.
 paths:
   /calculate-cash-runway:
     post:
       operationId: calculateCashRunway
-      summary: Calculate cash runway from cash balance, revenue, expenses, or burn rate.
+      summary: Calculate cash runway from submitted cash, revenue, expenses, or burn assumptions.
+      description: >-
+        Estimates monthly burn and cash runway using user-provided summary inputs. Results are
+        planning estimates only and should be checked against source financial records.
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: true
+              $ref: '#/components/schemas/CashRunwayRequest'
+            examples:
+              basic:
+                summary: Basic runway estimate
+                value:
+                  cashBalance: 25000
+                  monthlyRevenue: 12000
+                  monthlyExpenses: 18000
       responses:
-        '200': { description: Successful structured response }
-  /analyze-burn-rate:
-    post:
-      operationId: analyzeBurnRate
-      summary: Analyze monthly burn rate and expense movement.
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '200': { description: Successful structured response }
-  /generate-cash-flow-forecast:
-    post:
-      operationId: generateCashFlowForecast
-      summary: Generate a simplified cash flow forecast.
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '200': { description: Successful structured response }
+        '200':
+          description: Cash runway estimate returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashRunwayResponse'
+        '400':
+          description: Malformed JSON or invalid request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /score-funding-readiness:
     post:
       operationId: scoreFundingReadiness
-      summary: Generate a directional funding readiness score.
+      summary: Score directional funding readiness from submitted business financial inputs.
+      description: >-
+        Produces a planning-oriented funding readiness score. This is not an approval,
+        preapproval, financing offer, commitment, underwriting decision, or guarantee of funding.
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: true
+              $ref: '#/components/schemas/FundingReadinessRequest'
+            examples:
+              basic:
+                summary: Basic funding readiness score
+                value:
+                  monthlyRevenue: 42000
+                  monthlyNetCashFlow: 6500
+                  timeInBusinessMonths: 22
+                  creditScore: 680
+                  documentsReady: false
+                  existingDebtPayment: 2500
       responses:
-        '200': { description: Successful structured response }
+        '200':
+          description: Funding readiness score returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FundingReadinessResponse'
+        '400':
+          description: Malformed JSON or invalid request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /generate-cash-flow-forecast:
+    post:
+      operationId: generateCashFlowForecast
+      summary: Generate a simplified monthly cash flow forecast from submitted assumptions.
+      description: >-
+        Generates a simplified month-by-month cash flow forecast using submitted starting cash,
+        monthly revenue, monthly expenses, and forecast length. Current MVP behavior is monthly,
+        not a full 13-week direct cash flow model.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashFlowForecastRequest'
+            examples:
+              basic:
+                summary: Six-month forecast
+                value:
+                  startingCash: 30000
+                  monthlyRevenue: 22000
+                  monthlyExpenses: 19500
+                  months: 6
+      responses:
+        '200':
+          description: Cash flow forecast returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CashFlowForecastResponse'
+        '400':
+          description: Malformed JSON or invalid request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /detect-expense-leaks:
     post:
       operationId: detectExpenseLeaks
-      summary: Detect expense items that may need review.
+      summary: Detect expenses that may need review, cleanup, renegotiation, or deeper analysis.
+      description: >-
+        Flags expense items that may represent material spend or rapid increases based on submitted
+        expense rows. This is a heuristic planning tool, not an accounting audit.
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: true
+              $ref: '#/components/schemas/ExpenseLeaksRequest'
+            examples:
+              basic:
+                summary: Review recurring expenses
+                value:
+                  expenses:
+                    - name: Software bundle
+                      amount: 399
+                      category: software
+                      priorAmount: 250
+                    - name: Contractor support
+                      amount: 1800
+                      category: contractors
       responses:
-        '200': { description: Successful structured response }
-  /model-hiring-affordability:
-    post:
-      operationId: modelHiringAffordability
-      summary: Model whether a new hire appears affordable based on submitted assumptions.
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '200': { description: Successful structured response }
-  /generate-monthly-financial-snapshot:
-    post:
-      operationId: generateMonthlyFinancialSnapshot
-      summary: Generate a monthly financial health snapshot.
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '200': { description: Successful structured response }
+        '200':
+          description: Expense leak report returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExpenseLeaksResponse'
+        '400':
+          description: Malformed JSON or invalid request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /model-business-scenario:
     post:
-      operationId: modelBusinessScenario
-      summary: Model revenue and expense change scenario.
+      operationId: modelBusinessDecision
+      summary: Model the simplified cash flow impact of a business decision or scenario.
+      description: >-
+        Models how revenue and expense changes may affect monthly cash flow. Use for planning
+        decisions such as hiring, cutting costs, increasing marketing spend, raising prices, or
+        stress-testing a revenue decline. Outputs are simplified estimates, not professional advice.
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: true
+              $ref: '#/components/schemas/BusinessDecisionRequest'
+            examples:
+              basic:
+                summary: Model increased marketing spend and revenue lift
+                value:
+                  startingCash: 40000
+                  monthlyRevenue: 50000
+                  monthlyExpenses: 42000
+                  revenueChangePct: 10
+                  expenseChangePct: 6
       responses:
-        '200': { description: Successful structured response }
-  /generate-funding-document-checklist:
-    post:
-      operationId: generateFundingDocumentChecklist
-      summary: Generate a directional funding document checklist.
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '200': { description: Successful structured response }
-  /generate-monthly-advisor-memo:
-    post:
-      operationId: generateMonthlyAdvisorMemo
-      summary: Generate a monthly advisor memo draft.
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              type: object
-              additionalProperties: true
-      responses:
-        '200': { description: Successful structured response }
+        '200':
+          description: Business decision model returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BusinessDecisionResponse'
+        '400':
+          description: Malformed JSON or invalid request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    StandardDisclaimer:
+      type: string
+      description: Compliance-safe disclaimer returned with all API responses.
+      example: CFO-in-a-Box provides business planning and financial decision-support tools. It does not provide tax, legal, accounting, investment, securities, lending approval, or underwriting advice. Outputs are estimates, not guarantees.
+    ApiResponseBase:
+      type: object
+      required:
+        - ok
+        - disclaimer
+      properties:
+        ok:
+          type: boolean
+          description: Whether the request was processed successfully.
+        assumptions:
+          type: array
+          description: Notes about assumptions, limitations, or directional-use constraints.
+          items:
+            type: string
+        disclaimer:
+          $ref: '#/components/schemas/StandardDisclaimer'
+    ErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          required:
+            - error
+          properties:
+            ok:
+              const: false
+            error:
+              type: string
+              description: Human-readable error message.
+            details:
+              description: Optional additional error details when available.
+    CashRunwayRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        cashBalance:
+          type: number
+          minimum: 0
+          description: Current available business cash balance.
+        monthlyRevenue:
+          type: number
+          minimum: 0
+          description: Expected or average monthly revenue.
+        monthlyExpenses:
+          type: number
+          minimum: 0
+          description: Expected or average monthly cash expenses.
+        monthlyBurn:
+          type: number
+          minimum: 0
+          description: Optional explicit monthly burn amount. If provided, it overrides inferred burn.
+    CashRunwayData:
+      type: object
+      required:
+        - cashBalance
+        - monthlyBurn
+        - runwayMonths
+        - status
+      properties:
+        cashBalance:
+          type: number
+        monthlyBurn:
+          type: number
+        runwayMonths:
+          oneOf:
+            - type: number
+            - type: 'null'
+        status:
+          type: string
+          enum:
+            - cash-flow-positive-or-break-even
+            - high-risk
+            - watch
+            - stable
+    CashRunwayResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          required:
+            - data
+          properties:
+            ok:
+              const: true
+            data:
+              $ref: '#/components/schemas/CashRunwayData'
+    FundingReadinessRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        monthlyRevenue:
+          type: number
+          minimum: 0
+          description: Average or recent monthly business revenue.
+        monthlyNetCashFlow:
+          type: number
+          description: Monthly cash inflows minus monthly cash outflows.
+        timeInBusinessMonths:
+          type: number
+          minimum: 0
+          description: Number of months the business has operated.
+        creditScore:
+          type: number
+          minimum: 0
+          maximum: 850
+          description: Optional owner/business credit score input if known.
+        documentsReady:
+          type: boolean
+          description: Whether core funding documents appear ready for review.
+        existingDebtPayment:
+          type: number
+          minimum: 0
+          description: Current monthly debt payment obligations.
+    FundingReadinessData:
+      type: object
+      required:
+        - score
+        - band
+        - notes
+      properties:
+        score:
+          type: number
+          minimum: 0
+          maximum: 100
+        band:
+          type: string
+          enum:
+            - strong
+            - developing
+            - needs-work
+        notes:
+          type: array
+          items:
+            type: string
+    FundingReadinessResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          required:
+            - data
+          properties:
+            ok:
+              const: true
+            data:
+              $ref: '#/components/schemas/FundingReadinessData'
+    CashFlowForecastRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        startingCash:
+          type: number
+          description: Opening cash balance for the forecast period.
+        monthlyRevenue:
+          type: number
+          minimum: 0
+          description: Expected monthly cash inflows or revenue.
+        monthlyExpenses:
+          type: number
+          minimum: 0
+          description: Expected monthly cash outflows or expenses.
+        months:
+          type: number
+          minimum: 1
+          maximum: 24
+          description: Number of months to forecast. Current implementation supports 1 to 24.
+    CashFlowForecastRow:
+      type: object
+      required:
+        - month
+        - revenue
+        - expenses
+        - netCashFlow
+        - endingCash
+      properties:
+        month:
+          type: number
+        revenue:
+          type: number
+        expenses:
+          type: number
+        netCashFlow:
+          type: number
+        endingCash:
+          type: number
+    CashFlowForecastData:
+      type: object
+      required:
+        - months
+        - rows
+        - endingCash
+      properties:
+        months:
+          type: number
+        rows:
+          type: array
+          items:
+            $ref: '#/components/schemas/CashFlowForecastRow'
+        endingCash:
+          type: number
+    CashFlowForecastResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          required:
+            - data
+          properties:
+            ok:
+              const: true
+            data:
+              $ref: '#/components/schemas/CashFlowForecastData'
+    ExpenseItem:
+      type: object
+      additionalProperties: false
+      required:
+        - name
+        - amount
+      properties:
+        name:
+          type: string
+          description: Vendor, expense, or cost item name.
+        amount:
+          type: number
+          minimum: 0
+          description: Current monthly or recent expense amount.
+        category:
+          type: string
+          description: Optional expense category.
+        priorAmount:
+          type: number
+          minimum: 0
+          description: Optional prior period amount for trend comparison.
+    ExpenseLeaksRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        expenses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExpenseItem'
+    ExpenseLeak:
+      allOf:
+        - $ref: '#/components/schemas/ExpenseItem'
+        - type: object
+          required:
+            - reason
+          properties:
+            reason:
+              type: string
+              description: Why the expense was flagged for review.
+    ExpenseLeaksData:
+      type: object
+      required:
+        - leakCount
+        - leaks
+      properties:
+        leakCount:
+          type: number
+          minimum: 0
+        leaks:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExpenseLeak'
+    ExpenseLeaksResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          required:
+            - data
+          properties:
+            ok:
+              const: true
+            data:
+              $ref: '#/components/schemas/ExpenseLeaksData'
+    BusinessDecisionRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        startingCash:
+          type: number
+          description: Current or starting cash balance for context. Current endpoint may not include this value in output.
+        monthlyRevenue:
+          type: number
+          minimum: 0
+          description: Current or expected monthly revenue before scenario adjustment.
+        monthlyExpenses:
+          type: number
+          minimum: 0
+          description: Current or expected monthly expenses before scenario adjustment.
+        revenueChangePct:
+          type: number
+          description: Scenario revenue change percentage. Use negative values for revenue declines.
+        expenseChangePct:
+          type: number
+          description: Scenario expense change percentage. Use negative values for cost reductions.
+    BusinessDecisionData:
+      type: object
+      required:
+        - scenarioRevenue
+        - scenarioExpenses
+        - scenarioNetCashFlow
+        - signal
+      properties:
+        scenarioRevenue:
+          type: number
+        scenarioExpenses:
+          type: number
+        scenarioNetCashFlow:
+          type: number
+        signal:
+          type: string
+          enum:
+            - stress-case-negative-cash-flow
+            - scenario-positive-cash-flow
+    BusinessDecisionResponse:
+      allOf:
+        - $ref: '#/components/schemas/ApiResponseBase'
+        - type: object
+          required:
+            - data
+          properties:
+            ok:
+              const: true
+            data:
+              $ref: '#/components/schemas/BusinessDecisionData'
