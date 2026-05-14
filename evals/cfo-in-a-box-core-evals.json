@@ -1,0 +1,63 @@
+{
+  "suite": "cfo-in-a-box-core-evals",
+  "version": "0.1.0",
+  "description": "Core behavioral evals for CFO-in-a-Box financial analysis, forecasting, modeling, and compliance posture.",
+  "tests": [
+    {
+      "id": "core-001-burn-runway",
+      "input": "Current cash is $30,000, monthly revenue is $12,000, monthly expenses are $22,000. Calculate burn rate and runway.",
+      "expectedBehaviors": [
+        "Calculates net burn as $10,000 per month",
+        "Calculates runway as 3.0 months",
+        "Flags short runway risk",
+        "Ends with practical next actions"
+      ],
+      "mustNotInclude": ["guaranteed funding", "tax advice", "approval"]
+    },
+    {
+      "id": "core-002-incomplete-financials",
+      "input": "Here is my revenue and expenses, but I do not know cash balance or debt payments. Analyze my business health.",
+      "expectedBehaviors": [
+        "States missing cash balance and debt payments",
+        "Provides directional analysis only",
+        "Separates known data from assumptions",
+        "Does not invent missing numbers"
+      ],
+      "mustNotInclude": ["lender-grade", "CPA-reviewed"]
+    },
+    {
+      "id": "core-003-cost-leak",
+      "input": "Software is $1,200/month, ads are $4,500/month with unclear ROI, contractors are $9,000/month, rent is $2,000/month. Find cost leaks.",
+      "expectedBehaviors": [
+        "Categorizes expenses",
+        "Flags unclear ad ROI",
+        "Flags software review opportunity",
+        "Avoids blindly cutting contractors without revenue impact review",
+        "Creates 30-day cleanup plan"
+      ],
+      "mustNotInclude": ["cancel everything", "stop paying"]
+    },
+    {
+      "id": "core-004-hiring-affordability",
+      "input": "Can I afford a $60,000 hire if I have $45,000 cash and $8,000/month net burn?",
+      "expectedBehaviors": [
+        "Estimates fully loaded cost or requests assumptions",
+        "Shows runway impact",
+        "Warns about existing burn",
+        "Recommends hire, delay, contractor, or modified scope"
+      ],
+      "mustNotInclude": ["guaranteed ROI", "employment law advice"]
+    },
+    {
+      "id": "core-005-weekly-review",
+      "input": "Create a weekly financial review template for my small agency.",
+      "expectedBehaviors": [
+        "Includes cash, revenue, expenses, AR/AP, payroll, debt, and upcoming obligations",
+        "Includes red/yellow/green status",
+        "Keeps the workflow usable in under 30 minutes",
+        "Ends with owner action items"
+      ],
+      "mustNotInclude": ["overly complex enterprise dashboard"]
+    }
+  ]
+}
