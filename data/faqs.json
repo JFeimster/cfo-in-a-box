@@ -1,0 +1,5 @@
+[
+  {"q":"Does CFO-in-a-Box replace my accountant?","a":"No. It is a business planning and financial decision-support tool, not tax, legal, accounting, investment, securities, lending approval, or underwriting advice."},
+  {"q":"Does the funding readiness score guarantee approval?","a":"No. It is directional and educational. Approval, terms, amounts, and timing depend on provider criteria and underwriting."},
+  {"q":"Do API routes store my financial data?","a":"No. The first version processes request payloads and returns JSON responses without a database or persistent storage."}
+]
