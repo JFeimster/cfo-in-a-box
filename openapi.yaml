@@ -1,0 +1,138 @@
+openapi: 3.1.0
+info:
+  title: CFO-in-a-Box GPT Actions API
+  version: 0.1.0
+  description: No-auth FinanceOps API routes for calculators, scoring, and generators.
+servers:
+  - url: https://YOUR-VERCEL-DOMAIN.vercel.app/api/cfo-in-a-box
+paths:
+  /calculate-cash-runway:
+    post:
+      operationId: calculateCashRunway
+      summary: Calculate cash runway from cash balance, revenue, expenses, or burn rate.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
+  /analyze-burn-rate:
+    post:
+      operationId: analyzeBurnRate
+      summary: Analyze monthly burn rate and expense movement.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
+  /generate-cash-flow-forecast:
+    post:
+      operationId: generateCashFlowForecast
+      summary: Generate a simplified cash flow forecast.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
+  /score-funding-readiness:
+    post:
+      operationId: scoreFundingReadiness
+      summary: Generate a directional funding readiness score.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
+  /detect-expense-leaks:
+    post:
+      operationId: detectExpenseLeaks
+      summary: Detect expense items that may need review.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
+  /model-hiring-affordability:
+    post:
+      operationId: modelHiringAffordability
+      summary: Model whether a new hire appears affordable based on submitted assumptions.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
+  /generate-monthly-financial-snapshot:
+    post:
+      operationId: generateMonthlyFinancialSnapshot
+      summary: Generate a monthly financial health snapshot.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
+  /model-business-scenario:
+    post:
+      operationId: modelBusinessScenario
+      summary: Model revenue and expense change scenario.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
+  /generate-funding-document-checklist:
+    post:
+      operationId: generateFundingDocumentChecklist
+      summary: Generate a directional funding document checklist.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
+  /generate-monthly-advisor-memo:
+    post:
+      operationId: generateMonthlyAdvisorMemo
+      summary: Generate a monthly advisor memo draft.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200': { description: Successful structured response }
