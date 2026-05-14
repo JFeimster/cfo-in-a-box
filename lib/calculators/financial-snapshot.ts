@@ -46,6 +46,10 @@ function toNumber(value: unknown): number {
   return numeric ?? 0;
 }
 
+function hasInput(value: unknown): boolean {
+  return value !== undefined && value !== null && value !== '';
+}
+
 function roundMoney(value: number): number {
   return Math.round(value * 100) / 100;
 }
@@ -101,10 +105,10 @@ export function calculateFinancialSnapshot(rawInput: FinancialSnapshotInput): Fi
   if (cashBalance !== null) knownInputs.push('cash balance'); else missingInputs.push('cash balance');
   if (monthlyRevenue !== null) knownInputs.push('monthly revenue'); else missingInputs.push('monthly revenue');
   if (monthlyExpenses !== null) knownInputs.push('monthly expenses'); else missingInputs.push('monthly expenses');
-  if (rawInput.debtPayments !== undefined && rawInput.debtPayments !== null && rawInput.debtPayments !== '') knownInputs.push('debt payments'); else missingInputs.push('debt payments');
-  if (rawInput.ownerDraws !== undefined && rawInput.ownerDraws !== null && rawInput.ownerDraws !== '') knownInputs.push('owner draws'); else missingInputs.push('owner draws');
-  if (rawInput.expectedInflows !== undefined && rawInput.expectedInflows !== null && rawInput.expectedInflows !== '') knownInputs.push('expected inflows'); else missingInputs.push('expected inflows');
-  if (rawInput.upcomingLargeExpenses !== undefined && rawInput.upcomingLargeExpenses !== null && rawInput.upcomingLargeExpenses !== '') knownInputs.push('upcoming large expenses'); else missingInputs.push('upcoming large expenses');
+  if (hasInput(rawInput.debtPayments)) knownInputs.push('debt payments'); else missingInputs.push('debt payments');
+  if (hasInput(rawInput.ownerDraws)) knownInputs.push('owner draws'); else missingInputs.push('owner draws');
+  if (hasInput(rawInput.expectedInflows)) knownInputs.push('expected inflows'); else missingInputs.push('expected inflows');
+  if (hasInput(rawInput.upcomingLargeExpenses)) knownInputs.push('upcoming large expenses'); else missingInputs.push('upcoming large expenses');
   if (fundingGoal !== null) knownInputs.push('funding goal'); else missingInputs.push('funding goal');
 
   const grossBurn = monthlyExpenses === null ? null : roundMoney(monthlyExpenses + debtPayments + ownerDraws + upcomingLargeExpenses);
