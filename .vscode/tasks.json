@@ -1,0 +1,44 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "npm install",
+      "type": "shell",
+      "command": "npm install",
+      "problemMatcher": []
+    },
+    {
+      "label": "npm run dev",
+      "type": "shell",
+      "command": "npm run dev",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "npm run build",
+      "type": "shell",
+      "command": "npm run build",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "npm run lint",
+      "type": "shell",
+      "command": "npm run lint",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "PowerShell healthcheck",
+      "type": "shell",
+      "command": "pwsh ./scripts/dev-healthcheck.ps1",
+      "problemMatcher": []
+    },
+    {
+      "label": "Bash healthcheck",
+      "type": "shell",
+      "command": "bash ./scripts/dev-healthcheck.sh",
+      "problemMatcher": []
+    }
+  ]
+}
