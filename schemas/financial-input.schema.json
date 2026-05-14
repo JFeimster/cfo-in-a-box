@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cfo-in-a-box.local/schemas/financial-input.schema.json",
+  "title": "CFO-in-a-Box Financial Input",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "businessName": { "type": "string" },
+    "businessType": { "type": "string" },
+    "industry": { "type": "string" },
+    "analysisPeriod": { "type": "string" },
+    "primaryGoal": { "type": "string" },
+    "cashBalance": { "type": "number", "minimum": 0 },
+    "revenue": { "type": "number", "minimum": 0 },
+    "cogs": { "type": "number", "minimum": 0 },
+    "grossProfit": { "type": "number" },
+    "operatingExpenses": { "type": "number", "minimum": 0 },
+    "netIncome": { "type": "number" },
+    "monthlyRevenue": { "type": "number", "minimum": 0 },
+    "monthlyExpenses": { "type": "number", "minimum": 0 },
+    "payroll": { "type": "number", "minimum": 0 },
+    "contractorSpend": { "type": "number", "minimum": 0 },
+    "debtPayments": { "type": "number", "minimum": 0 },
+    "accountsReceivable": { "type": "number", "minimum": 0 },
+    "accountsPayable": { "type": "number", "minimum": 0 },
+    "ownerDraws": { "type": "number", "minimum": 0 },
+    "upcomingLargeExpenses": { "type": "number", "minimum": 0 },
+    "expectedNewRevenue": { "type": "number", "minimum": 0 },
+    "existingLoansOrCreditLines": { "type": "string" },
+    "employeeCount": { "type": "integer", "minimum": 0 },
+    "contractorCount": { "type": "integer", "minimum": 0 },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "required": ["businessType", "primaryGoal"],
+  "description": "Canonical financial input payload for CFO-in-a-Box workflows. Use synthetic data in repo samples and evals."
+}
