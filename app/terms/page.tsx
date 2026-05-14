@@ -1,0 +1,4 @@
+import { Header } from '@/components/site/Header';
+import { Footer } from '@/components/site/Footer';
+
+export default function TermsPage(){return <><Header/><section><div className="container"><h1>Terms of Use</h1><div className="feature-card"><p>CFO-in-a-Box is provided for informational, educational, and business planning purposes only. Outputs are estimates and decision-support notes, not professional advice.</p><p>The service does not provide tax, legal, accounting, investment, securities, lending approval, or underwriting advice.</p><p>No funding approval, funding amount, term, rate, timing, or provider decision is guaranteed.</p><p>Users are responsible for verifying all numbers, assumptions, documents, and decisions with qualified professionals where appropriate. Use at your own risk.</p></div></div></section><Footer/></>}
