@@ -1,0 +1,1 @@
+export const STANDARD_DISCLAIMER = 'CFO-in-a-Box provides business planning and financial decision-support tools. It does not provide tax, legal, accounting, investment, securities, lending approval, or underwriting advice. Outputs are estimates, not guarantees.';
