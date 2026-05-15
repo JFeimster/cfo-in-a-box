@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import './snapshot.css';
 
 export const metadata: Metadata = {
   title: 'CFO-in-a-Box | AI FinanceOps for Small Business',
