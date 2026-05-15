@@ -7,8 +7,13 @@ function money(value: number | null): string {
 }
 
 function months(value: number | null): string {
-  if (value === null) return 'Not enough data';
+  if (value === null) return 'No net burn / not enough data';
   return `${value.toFixed(2)} months`;
+}
+
+function percent(value: number | null): string {
+  if (value === null) return 'Not provided';
+  return `${Math.round(value * 100)}%`;
 }
 
 function list(items: string[]): string {
@@ -24,7 +29,9 @@ export function buildFinancialSnapshotMarkdownReport(
   return [
     '# CFO-in-a-Box Financial Snapshot',
     '',
+    `**Business name:** ${calculation.businessName}`,
     `**Business type:** ${calculation.businessType}`,
+    `**Biggest concern:** ${calculation.biggestConcern}`,
     `**Summary source:** ${summarySource === 'openai' ? 'AI-generated after deterministic calculations' : 'Fallback summary from deterministic calculations'}`,
     '',
     '## Executive Summary',
@@ -33,14 +40,18 @@ export function buildFinancialSnapshotMarkdownReport(
     '',
     '## Key Metrics',
     '',
-    `- Cash balance: ${money(calculation.cashBalance)}`,
+    `- Current cash: ${money(calculation.currentCash)}`,
     `- Monthly revenue: ${money(calculation.monthlyRevenue)}`,
     `- Monthly expenses: ${money(calculation.monthlyExpenses)}`,
+    `- Payroll / contractor spend: ${money(calculation.payrollOrContractorSpend)}`,
     `- Gross burn: ${money(calculation.grossBurn)}`,
     `- Monthly net cash flow: ${money(calculation.monthlyNetCashFlow)}`,
     `- Net burn: ${money(calculation.netBurn)}`,
     `- Estimated runway: ${months(calculation.runwayMonths)}`,
+    `- Estimated cash-out date: ${calculation.cashOutDateEstimate ?? 'Not applicable'}`,
     `- Break-even gap: ${money(calculation.breakEvenGap)}`,
+    `- Expense ratio: ${percent(calculation.expenseRatio)}`,
+    `- Funding readiness mini-score: ${calculation.fundingReadinessMiniScore === null ? 'Not available' : `${calculation.fundingReadinessMiniScore}/100`}`,
     `- Risk level: ${calculation.riskLevel}`,
     '',
     '## What the Numbers Mean',

@@ -2,11 +2,79 @@
 
 <img width="1344" height="572" alt="CFO-in-a-Box product preview" src="https://github.com/user-attachments/assets/86f8a509-f32b-415f-9c0b-baa1583a7cfd" />
 
-**CFO-in-a-Box** is an AI CFO / FinanceOps platform for small business owners who need financial clarity without hiring a full-time CFO.
+**CFO-in-a-Box** is a micro-SaaS financial command center for small business owners who need CFO-level clarity without CFO-level payroll.
 
-It helps founders, operators, agencies, consultants, ecommerce sellers, local service businesses, and funding-ready entrepreneurs turn messy financial inputs into cash flow forecasts, burn rate analysis, funding readiness scores, cost leak reports, scenario models, weekly reviews, monthly snapshots, and advisor-style memos.
+It helps founders, operators, agencies, consultants, ecommerce sellers, local service businesses, and funding-ready entrepreneurs turn messy financial inputs into runway, burn rate, break-even gap, funding readiness pressure, financial risk, next-step action plans, and export-ready reports.
 
 > Cash is the oxygen. Profit is the scoreboard. Forecasting is the radar.
+
+## Current MVP workflow
+
+The first web-app workflow is:
+
+```text
+/app/financial-snapshot
+```
+
+It collects structured business inputs and returns a dashboard-style financial snapshot with:
+
+- Current cash
+- Monthly revenue
+- Monthly expenses
+- Gross burn
+- Net burn
+- Estimated runway
+- Break-even gap
+- Cash-out date estimate when feasible
+- Expense ratio
+- Financial risk level
+- Funding readiness mini-score
+- Plain-English summary
+- Recommended action plan
+- Assumptions and missing data
+- Export-ready Markdown report
+
+API route:
+
+```text
+POST /api/financial-snapshot
+```
+
+## Product positioning
+
+CFO-in-a-Box is now positioned as a **website/app-first micro-SaaS product**, not primarily as a Custom GPT.
+
+The Custom GPT remains useful as:
+
+- A free acquisition channel
+- A demo assistant
+- A manual analysis helper
+- A future GPT Actions interface
+
+The primary product experience should happen through the web app frontend, guided workflows, deterministic calculations, result cards, CTA paths, and export-ready reports.
+
+## Calculation-first / AI-second rule
+
+Financial math must be deterministic.
+
+Use code for:
+
+- Burn rate
+- Runway
+- Break-even gap
+- Expense ratio
+- Risk level
+- Funding readiness scoring
+- Scenario math
+
+Use AI only after calculations are complete for:
+
+- Plain-English explanations
+- Summary narrative
+- Action plan wording
+- Report drafting
+
+The model should never be the source of truth for the numbers. No spreadsheet séance. No CFO Halloween costume.
 
 ## What this repo is
 
@@ -32,6 +100,7 @@ CFO-in-a-Box helps business owners answer questions like:
 
 | Capability | What it does |
 | --- | --- |
+| Financial snapshot | Collects summary inputs and returns runway, burn, risk, mini-score, CTA paths, and export-ready Markdown output. |
 | Financial statement analysis | Reviews P&L, balance sheet, cash flow, bank exports, debt schedules, AR/AP, and other financial inputs. |
 | Cash flow forecasting | Builds short-term and monthly forecasts with inflows, outflows, payroll, debt, taxes, owner draws, and risk warnings. |
 | Burn rate + runway | Calculates gross burn, net burn, runway, survival risk, and runway-extension actions. |
@@ -47,7 +116,8 @@ CFO-in-a-Box helps business owners answer questions like:
 
 | Tier | Purpose | Typical user |
 | --- | --- | --- |
-| Free GPT | Basic financial clarity, manual analysis, runway estimates, weekly prompts, funding readiness self-checks. | DIY owners and curious founders. |
+| Free GPT | Free acquisition channel, manual analysis, runway estimates, weekly prompts, and funding readiness self-checks. | DIY owners and curious founders. |
+| Free web tools | Guided financial snapshot and calculators that create useful reports and next-step CTAs. | Owners who want fast utility without a login wall. |
 | Starter Lab | Templates, prompt vaults, Google Sheets/Notion resources, community, and monthly cash flow clinics. | Owners who want structure but still run it themselves. |
 | Founder OS | FinOps setup, monthly reports, cash flow dashboards, reminders, funding readiness tracking, and export-based workflows. | Operators who want a repeatable financial operating system. |
 | Advisor Desk | Founder OS plus human-in-the-loop review, advisor memos, review calls, and decision support. | Owners making bigger decisions around hiring, funding, cutting, borrowing, or growth. |
@@ -58,121 +128,91 @@ CFO-in-a-Box is built as a layered product:
 
 | Layer | Tooling | Purpose |
 | --- | --- | --- |
-| Product site | Next.js App Router | Public pages, pricing, tools, demo, privacy, terms, and financial snapshot flows. |
+| Product site | Next.js App Router | Public pages, pricing, tools, demo, privacy, terms, and app workflows. |
+| App workflow | `/app/financial-snapshot` | First micro-SaaS workflow with form input, results, CTA rail, and report export. |
 | API backend | Vercel API routes | No-auth calculators, scoring engines, generators, and structured GPT Action responses. |
-| GPT interface | ChatGPT Custom GPT | User-facing AI CFO workflow with plain-English analysis. |
+| GPT interface | ChatGPT Custom GPT | Free starter, demo assistant, and future Actions interface. |
 | Action schema | OpenAPI | Maps Custom GPT Actions to API routes. |
 | Marketing shell | Wix | Marketing pages, communities, booking, lead capture, and conversion flows. |
 | Source control | GitHub | Code, docs, schemas, templates, prompt chains, evals, and operating rules. |
 
-## Repo structure
+## Repo structure highlights
 
 ```text
 app/
   api/
-    health/
+    financial-snapshot/
     cfo-in-a-box/
-  demo/
-  free-financial-snapshot/
-  pricing/
-  privacy/
-  terms/
+  app/
+    financial-snapshot/
   tools/
 components/
-  dashboard/
-  site/
-  tools/
-data/
+  snapshot/
 docs/
-evals/
 lib/
-  api/
   calculators/
-  constants/
-  generators/
-  scoring/
-prompt-chains/
-schemas/
-skills/
-templates/
-AGENTS.md
-CONTEXT.md
+  openai/
+  reports/
 openapi.yaml
+README.md
 ```
 
 ## Key files and folders
 
 | Path | Purpose |
 | --- | --- |
-| `AGENTS.md` | Operating rules for AI coding agents working inside the repo. |
-| `CONTEXT.md` | Product context, positioning, capabilities, product ladder, and compliance posture. |
-| `openapi.yaml` | GPT Actions schema used by the Custom GPT. |
-| `app/api/cfo-in-a-box/` | API routes for calculators, scoring engines, report builders, and scenario models. |
-| `lib/calculators/` | Core financial calculation logic. |
-| `lib/scoring/` | Funding readiness and related scoring logic. |
-| `docs/` | Compliance rules, data dictionary, integration map, fulfillment playbooks, report templates, and sample inputs. |
-| `skills/` | Reusable skill instructions for each CFO-in-a-Box capability. |
-| `schemas/` | JSON schemas for financial inputs, funding readiness, monthly reports, and scenario models. |
-| `evals/` | Test cases for calculation behavior, missing-data handling, compliance, and funding readiness outputs. |
-| `templates/` | Copy-ready report templates for weekly reviews, funding readiness, cost leaks, and monthly advisor memos. |
-| `prompt-chains/` | Sequential workflows for financial analysis, cash flow forecasting, Founder OS reporting, and Advisor Desk review. |
+| `app/app/financial-snapshot/page.tsx` | Guided Financial Snapshot workflow page. |
+| `components/snapshot/FinancialSnapshotForm.tsx` | Structured input form for business basics and financial inputs. |
+| `components/snapshot/FinancialSnapshotResults.tsx` | Result cards, CTA rail, copy/download behavior, and report preview. |
+| `app/api/financial-snapshot/route.ts` | POST API route for calculation, optional AI summary, and report output. |
+| `lib/calculators/financial-snapshot.ts` | Deterministic runway, burn, break-even, risk, expense ratio, and mini-score logic. |
+| `lib/openai/generate-financial-summary.ts` | Server-side AI summary generation with fallback behavior. |
+| `lib/reports/financial-snapshot-report.ts` | Markdown report formatter. |
+| `docs/micro-saas-roadmap.md` | Product direction and build sequence. |
+| `docs/financial-snapshot-workflow.md` | Workflow scope, inputs, outputs, and limitations. |
+| `docs/openai-usage-notes.md` | Server-side OpenAI guidance and calculation-first rule. |
+| `docs/manual-qa-checklist.md` | Manual QA cases for the workflow and API route. |
 
-## GPT Actions API routes
+## Public tools
+
+`/tools` lists the current and planned free tools:
+
+- Financial Snapshot — active
+- Cash Runway Calculator — active / existing route pattern
+- Funding Readiness Score — active / existing route pattern
+- Expense Leak Detector — coming soon
+- Cash Flow Forecast Builder — coming soon
+- Hiring Affordability Model — coming soon
+- Monthly Advisor Memo Generator — coming soon
+
+## Existing GPT Actions API routes
 
 Health check:
 
-- `GET /api/health`
-
-No-auth GPT Actions:
-
-- `POST /api/cfo-in-a-box/calculate-cash-runway`
-- `POST /api/cfo-in-a-box/analyze-burn-rate`
-- `POST /api/cfo-in-a-box/generate-cash-flow-forecast`
-- `POST /api/cfo-in-a-box/score-funding-readiness`
-- `POST /api/cfo-in-a-box/detect-expense-leaks`
-- `POST /api/cfo-in-a-box/model-hiring-affordability`
-- `POST /api/cfo-in-a-box/generate-monthly-financial-snapshot`
-- `POST /api/cfo-in-a-box/model-business-scenario`
-- `POST /api/cfo-in-a-box/generate-funding-document-checklist`
-- `POST /api/cfo-in-a-box/generate-monthly-advisor-memo`
-
-Authentication is intentionally **none for v1**. The first action layer is designed for calculators, diagnostics, generators, scoring engines, and scenario models using user-provided summary inputs.
-
-## GPT Actions setup
-
-Use `openapi.yaml` inside the Custom GPT Actions configuration.
-
-After deployment, replace the placeholder server URL with the live Vercel or custom API domain:
-
 ```text
-https://YOUR-VERCEL-DOMAIN.vercel.app/api/cfo-in-a-box
+GET /api/health
 ```
 
-Optional custom domain pattern:
+Existing no-auth GPT Actions routes include:
 
 ```text
-https://api.distilledfunding.com/api/cfo-in-a-box
+POST /api/cfo-in-a-box/calculate-cash-runway
+POST /api/cfo-in-a-box/analyze-burn-rate
+POST /api/cfo-in-a-box/generate-cash-flow-forecast
+POST /api/cfo-in-a-box/score-funding-readiness
+POST /api/cfo-in-a-box/detect-expense-leaks
+POST /api/cfo-in-a-box/model-hiring-affordability
+POST /api/cfo-in-a-box/generate-monthly-financial-snapshot
+POST /api/cfo-in-a-box/model-business-scenario
+POST /api/cfo-in-a-box/generate-funding-document-checklist
+POST /api/cfo-in-a-box/generate-monthly-advisor-memo
 ```
 
-Required public policy pages:
+New micro-SaaS app route:
 
 ```text
-/privacy
-/terms
+POST /api/financial-snapshot
 ```
-
-## Public pages
-
-- `/`
-- `/pricing`
-- `/use-cases`
-- `/free-financial-snapshot`
-- `/demo`
-- `/tools`
-- `/tools/cash-runway`
-- `/tools/funding-readiness`
-- `/privacy`
-- `/terms`
 
 ## Local development
 
@@ -188,16 +228,16 @@ Run the development server:
 npm run dev
 ```
 
+Open:
+
+```text
+http://localhost:3000/app/financial-snapshot
+```
+
 Build locally:
 
 ```bash
 npm run build
-```
-
-Start the production server locally:
-
-```bash
-npm run start
 ```
 
 Run linting:
@@ -206,20 +246,40 @@ Run linting:
 npm run lint
 ```
 
-## Deployment
+## Manual API test
 
-Deploy to Vercel as a standard Next.js app.
+```bash
+curl -X POST http://localhost:3000/api/financial-snapshot \
+  -H "Content-Type: application/json" \
+  -d '{"businessName":"Demo HVAC","businessType":"Local service","currentCash":25000,"monthlyRevenue":12000,"monthlyExpenses":18000,"debtPayments":1500,"upcomingLargeExpenses":5000,"expectedInflows":3000,"fundingGoal":50000,"biggestConcern":"Runway and funding readiness"}'
+```
 
-- Framework: Next.js
-- Build command: `npm run build`
-- Output: default Next.js output
-- Environment variables required for v1: none
+Expected response includes:
 
-See:
+- `ok: true`
+- `data.calculation`
+- `data.summary`
+- `data.markdownReport`
+- `disclaimer`
 
-- `docs/vercel-deployment.md`
-- `docs/integration-map.md`
-- `docs/openapi-actions-workflow.md`
+## OpenAI usage
+
+The Financial Snapshot route works without an OpenAI key.
+
+Optional AI summary generation uses only server-side environment variables:
+
+```text
+OPENAI_API_KEY
+OPENAI_MODEL
+```
+
+Rules:
+
+- Never expose OpenAI usage in frontend code.
+- Never commit secrets.
+- Store approved keys in Vercel environment variables.
+- Keep deterministic fallback summaries available.
+- Do not use AI for math.
 
 ## Compliance posture
 
@@ -232,15 +292,16 @@ It does **not** provide:
 - Accounting advice
 - Investment advice
 - Securities advice
+- Underwriting advice
 - Lending approval advice
-- Underwriting decisions
-- Guaranteed funding outcomes
+- Guaranteed funding
+- Guaranteed approval
+- Guaranteed terms
+- Guaranteed timing
 
-Funding readiness outputs are planning tools, not approvals, preapprovals, offers, commitments, underwriting decisions, or financing guarantees.
+Funding readiness scores and financial risk levels are planning tools only. They do not guarantee approval, terms, timing, or financing.
 
-No funding amount, rate, term, repayment structure, approval timing, or provider decision is guaranteed.
-
-Outputs are directional estimates based on submitted inputs and simplified assumptions. Users are responsible for verifying numbers and consulting qualified professionals where appropriate.
+Final financing decisions depend on lenders, underwriters, investors, or capital providers and their criteria.
 
 ## Data handling rules
 
@@ -251,82 +312,20 @@ Outputs are directional estimates based on submitted inputs and simplified assum
 - Do not store raw client data by default.
 - Clearly separate known data, assumptions, and missing information in outputs.
 
-## Default financial report structure
-
-Most CFO-in-a-Box reports should follow this structure:
-
-1. Executive Summary
-2. Key Metrics
-3. What the Numbers Mean
-4. Risks
-5. Opportunities
-6. Recommended Actions
-7. Assumptions and Missing Data
-
-## Funding readiness framework
-
-Funding readiness is scored from 0 to 100 across six categories:
-
-| Category | Points |
-| --- | ---: |
-| Financial Documentation | 20 |
-| Cash Flow Health | 25 |
-| Profitability & Margins | 20 |
-| Debt & Repayment Capacity | 15 |
-| Growth Story & Use of Funds | 10 |
-| Owner / Business Risk Profile | 10 |
-
-Score interpretation:
-
-| Score | Interpretation |
-| ---: | --- |
-| 85–100 | Strong funding candidate. |
-| 70–84 | Potentially fundable with cleanup. |
-| 55–69 | Needs financial strengthening before serious funding conversations. |
-| 40–54 | High-risk; fix cash flow, documentation, and profitability first. |
-| 0–39 | Not funding-ready; stabilize before pursuing capital. |
-
-## Working with skills
-
-Each skill folder under `skills/` contains a `SKILL.md` file with:
-
-- Purpose
-- When to use the skill
-- Required inputs
-- Process steps
-- Output format
-- Assumptions handling
-- Safety and compliance rules
-- Example user prompts
-- Example output skeleton
-- Related API endpoints
-- Related templates
-
-These skills are designed to make the product reusable across the GPT, API routes, prompt chains, documentation, and future Founder OS / Advisor Desk workflows.
-
-## Testing and evals
-
-The `evals/` folder contains structured test cases for:
-
-- Core CFO-in-a-Box behavior
-- Funding readiness scoring
-- Missing-data handling
-- Compliance language
-- Hallucination prevention
-- Owner-friendly explanations
-- Recommended action quality
-
-Use evals before expanding actions, changing scoring logic, or adjusting report behavior.
-
 ## Roadmap
 
-1. Public site and GPT Actions API
-2. Interactive calculators and lead magnet capture
-3. Expanded no-auth action library
-4. Starter Lab templates and community workflows
-5. Founder OS automated reporting layer
-6. Advisor Desk human-in-the-loop review workflow
-7. Future integrations with Google Drive, Sheets, Notion, HubSpot, n8n, Stripe, and export-based workflows
+Recommended build order:
+
+1. Financial Snapshot workflow
+2. Cash Runway Calculator as a standalone free tool using the shared calculation/result-card/report pattern
+3. Funding Readiness Score workflow using deterministic category scoring
+4. Expense Leak Detector with expense categories, subscriptions, savings estimates, and a 30-day cleanup report
+5. GPT Actions/OpenAPI schema for completed no-auth calculator routes
+6. Cash Flow Forecast Builder
+7. Hiring Affordability Model
+8. Monthly Advisor Memo Generator
+9. Founder OS reporting layer
+10. Advisor Desk human-in-the-loop workflow
 
 ## Build discipline
 
@@ -336,23 +335,6 @@ Before merging major changes:
 - Confirm no guaranteed funding language was introduced.
 - Confirm financial outputs separate facts from assumptions.
 - Confirm regulated advice is avoided.
-- Confirm API route behavior matches `openapi.yaml`.
-- Confirm templates and prompt chains use practical, founder-friendly language.
-
-## Status
-
-Current foundation:
-
-- Next.js structure exists
-- API routes exist
-- OpenAPI schema exists
-- Privacy and terms pages exist
-- Skills layer exists
-- Supporting docs exist
-- Schemas exist
-- Evals exist
-- Report templates exist
-- Prompt chains exist
-- No-auth action direction is documented
-
-CFO-in-a-Box is now positioned as a serious AI finance command center for operators who are done checking their bank balance like it is a Magic 8 Ball.
+- Confirm API route behavior matches the intended schema.
+- Confirm frontend routes do not expose server-side secrets.
+- Confirm manual QA cases pass.

@@ -4,10 +4,12 @@ import { FormEvent, useState } from 'react';
 import { FinancialSnapshotResults, type FinancialSnapshotResponse } from './FinancialSnapshotResults';
 
 type FormState = {
+  businessName: string;
   businessType: string;
-  cashBalance: string;
+  currentCash: string;
   monthlyRevenue: string;
   monthlyExpenses: string;
+  payrollOrContractorSpend: string;
   debtPayments: string;
   ownerDraws: string;
   expectedInflows: string;
@@ -17,10 +19,12 @@ type FormState = {
 };
 
 const initialState: FormState = {
+  businessName: 'Demo HVAC Co.',
   businessType: 'Service business',
-  cashBalance: '25000',
+  currentCash: '25000',
   monthlyRevenue: '12000',
   monthlyExpenses: '18000',
+  payrollOrContractorSpend: '0',
   debtPayments: '0',
   ownerDraws: '0',
   expectedInflows: '0',
@@ -53,10 +57,12 @@ export function FinancialSnapshotForm() {
     setResult(null);
 
     const payload = {
+      businessName: form.businessName,
       businessType: form.businessType,
-      cashBalance: parseNumber(form.cashBalance),
+      currentCash: parseNumber(form.currentCash),
       monthlyRevenue: parseNumber(form.monthlyRevenue),
       monthlyExpenses: parseNumber(form.monthlyExpenses),
+      payrollOrContractorSpend: parseNumber(form.payrollOrContractorSpend),
       debtPayments: parseNumber(form.debtPayments),
       ownerDraws: parseNumber(form.ownerDraws),
       expectedInflows: parseNumber(form.expectedInflows),
@@ -90,13 +96,18 @@ export function FinancialSnapshotForm() {
     <div className="snapshot-shell">
       <form className="snapshot-workflow-form" onSubmit={handleSubmit}>
         <div className="form-group">
+          <label htmlFor="businessName">Business name</label>
+          <input id="businessName" value={form.businessName} onChange={(event) => updateField('businessName', event.target.value)} />
+        </div>
+
+        <div className="form-group">
           <label htmlFor="businessType">Business type</label>
           <input id="businessType" value={form.businessType} onChange={(event) => updateField('businessType', event.target.value)} />
         </div>
 
         <div className="form-group">
-          <label htmlFor="cashBalance">Current cash balance</label>
-          <input id="cashBalance" inputMode="decimal" value={form.cashBalance} onChange={(event) => updateField('cashBalance', event.target.value)} />
+          <label htmlFor="currentCash">Current cash balance</label>
+          <input id="currentCash" inputMode="decimal" value={form.currentCash} onChange={(event) => updateField('currentCash', event.target.value)} />
         </div>
 
         <div className="form-group">
@@ -107,6 +118,11 @@ export function FinancialSnapshotForm() {
         <div className="form-group">
           <label htmlFor="monthlyExpenses">Monthly expenses</label>
           <input id="monthlyExpenses" inputMode="decimal" value={form.monthlyExpenses} onChange={(event) => updateField('monthlyExpenses', event.target.value)} />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="payrollOrContractorSpend">Payroll / contractor spend</label>
+          <input id="payrollOrContractorSpend" inputMode="decimal" value={form.payrollOrContractorSpend} onChange={(event) => updateField('payrollOrContractorSpend', event.target.value)} />
         </div>
 
         <div className="form-group">
