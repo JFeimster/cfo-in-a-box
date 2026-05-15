@@ -21,14 +21,21 @@ type FinancialSnapshotSummary = {
 };
 
 type FinancialSnapshotCalculation = {
+  businessName: string;
+  businessType: string;
   cashBalance: number | null;
+  currentCash: number | null;
   monthlyRevenue: number | null;
   monthlyExpenses: number | null;
+  payrollOrContractorSpend: number;
   grossBurn: number | null;
   monthlyNetCashFlow: number | null;
   netBurn: number | null;
   runwayMonths: number | null;
   breakEvenGap: number | null;
+  cashOutDateEstimate: string | null;
+  expenseRatio: number | null;
+  fundingReadinessMiniScore: number | null;
   riskLevel: string;
   knownInputs: string[];
   missingInputs: string[];
@@ -52,7 +59,7 @@ function formatMoney(value: number | null): string {
 }
 
 function formatMonths(value: number | null): string {
-  if (value === null) return 'Not enough data';
+  if (value === null) return 'No net burn / not enough data';
   return `${value.toFixed(2)} months`;
 }
 
@@ -61,6 +68,11 @@ function riskLabel(risk: string): string {
   if (risk === 'elevated') return 'Elevated cash risk';
   if (risk === 'stable') return 'Stable based on inputs';
   return 'Watch closely';
+}
+
+function percent(value: number | null): string {
+  if (value === null) return 'Not provided';
+  return `${Math.round(value * 100)}%`;
 }
 
 function reportFileName(): string {
@@ -125,11 +137,23 @@ export function FinancialSnapshotResults({ result }: { result: FinancialSnapshot
       </div>
 
       <div className="snapshot-metric-grid">
-        <div className="db-card"><div className="db-label">Runway</div><div className="db-value">{formatMonths(calculation.runwayMonths)}</div></div>
+        <div className="db-card"><div className="db-label">Current Cash</div><div className="db-value">{formatMoney(calculation.currentCash)}</div></div>
+        <div className="db-card"><div className="db-label">Monthly Revenue</div><div className="db-value">{formatMoney(calculation.monthlyRevenue)}</div></div>
+        <div className="db-card"><div className="db-label">Monthly Expenses</div><div className="db-value">{formatMoney(calculation.monthlyExpenses)}</div></div>
+        <div className="db-card"><div className="db-label">Gross Burn</div><div className="db-value">{formatMoney(calculation.grossBurn)}</div></div>
         <div className="db-card"><div className="db-label">Net Burn</div><div className="db-value">{formatMoney(calculation.netBurn)}</div></div>
-        <div className="db-card"><div className="db-label">Net Cash Flow</div><div className="db-value">{formatMoney(calculation.monthlyNetCashFlow)}</div></div>
+        <div className="db-card"><div className="db-label">Runway</div><div className="db-value">{formatMonths(calculation.runwayMonths)}</div></div>
         <div className="db-card"><div className="db-label">Break-even Gap</div><div className="db-value">{formatMoney(calculation.breakEvenGap)}</div></div>
+        <div className="db-card"><div className="db-label">Expense Ratio</div><div className="db-value">{percent(calculation.expenseRatio)}</div></div>
+        <div className="db-card"><div className="db-label">Funding Mini-Score</div><div className="db-value">{calculation.fundingReadinessMiniScore === null ? 'Not available' : `${calculation.fundingReadinessMiniScore}/100`}</div></div>
       </div>
+
+      {calculation.cashOutDateEstimate && (
+        <div className="snapshot-panel snapshot-takeaway">
+          <h3>Estimated cash-out date</h3>
+          <p>{calculation.cashOutDateEstimate} based on submitted summary inputs and a simplified monthly burn estimate.</p>
+        </div>
+      )}
 
       <div className="snapshot-panel snapshot-takeaway">
         <h3>What the numbers mean</h3>
