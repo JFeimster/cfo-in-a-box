@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+
 type FinancialSnapshotSummary = {
   executiveSummary: string;
   keyTakeaway: string;
@@ -59,6 +63,11 @@ function riskLabel(risk: string): string {
   return 'Watch closely';
 }
 
+function reportFileName(): string {
+  const date = new Date().toISOString().slice(0, 10);
+  return `cfo-in-a-box-financial-snapshot-${date}.md`;
+}
+
 function ListBlock({ title, items }: { title: string; items: string[] }) {
   return (
     <div className="snapshot-panel">
@@ -74,12 +83,41 @@ function ListBlock({ title, items }: { title: string; items: string[] }) {
 
 export function FinancialSnapshotResults({ result }: { result: FinancialSnapshotResponse }) {
   const { calculation, summary, summarySource, markdownReport } = result.data;
+  const [copyStatus, setCopyStatus] = useState('Copy report');
+
+  async function copyReport() {
+    try {
+      await navigator.clipboard.writeText(markdownReport);
+      setCopyStatus('Copied');
+      window.setTimeout(() => setCopyStatus('Copy report'), 1800);
+    } catch {
+      setCopyStatus('Copy failed');
+      window.setTimeout(() => setCopyStatus('Copy report'), 1800);
+    }
+  }
+
+  function downloadReport() {
+    const blob = new Blob([markdownReport], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = reportFileName();
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  }
 
   return (
-    <div className="snapshot-results">
+    <div className="snapshot-results" id="financial-snapshot-results">
       <div className="snapshot-result-header">
         <div>
-          <div className="badge">{summarySource === 'openai' ? 'AI CFO Summary' : 'Fallback Summary'}</div>
+          <div className="snapshot-result-toolbar">
+            <div className="badge">{summarySource === 'openai' ? 'AI CFO Summary' : 'Fallback Summary'}</div>
+            <span className="snapshot-source-note">
+              {summarySource === 'openai' ? 'Generated after deterministic calculations' : 'Deterministic fallback summary'}
+            </span>
+          </div>
           <h2>Your Financial Snapshot</h2>
           <p>{summary.executiveSummary}</p>
         </div>
@@ -111,10 +149,22 @@ export function FinancialSnapshotResults({ result }: { result: FinancialSnapshot
       </div>
 
       <div className="snapshot-panel">
-        <h3>Recommended next clicks</h3>
+        <div className="snapshot-panel-heading">
+          <div>
+            <h3>Recommended next clicks</h3>
+            <p>These are the next moves based on the runway and risk signal.</p>
+          </div>
+        </div>
         <div className="snapshot-cta-grid">
-          {summary.suggestedCtas.map((cta) => (
-            <a className="snapshot-cta-card" href={cta.target} key={`${cta.label}-${cta.target}`}>
+          {summary.suggestedCtas.map((cta, index) => (
+            <a
+              className="snapshot-cta-card"
+              href={cta.target}
+              key={`${cta.label}-${cta.target}`}
+              data-snapshot-cta={cta.label}
+              data-snapshot-risk={calculation.riskLevel}
+            >
+              <small>Step {index + 1}</small>
               <strong>{cta.label}</strong>
               <span>{cta.reason}</span>
             </a>
@@ -127,9 +177,26 @@ export function FinancialSnapshotResults({ result }: { result: FinancialSnapshot
         <ListBlock title="Assumptions + Missing Data" items={summary.assumptionsAndMissingData} />
       </div>
 
-      <div className="snapshot-panel">
-        <h3>Export-ready markdown report</h3>
+      <div className="snapshot-panel snapshot-export-panel">
+        <div className="snapshot-export-heading">
+          <div>
+            <h3>Export-ready markdown report</h3>
+            <p>Copy it into Notion, Google Docs, a client file, or your weekly review system.</p>
+          </div>
+          <div className="snapshot-export-actions">
+            <button className="btn btn-outline" type="button" onClick={copyReport}>{copyStatus}</button>
+            <button className="btn btn-primary" type="button" onClick={downloadReport}>Download .md</button>
+          </div>
+        </div>
         <textarea readOnly value={markdownReport} className="snapshot-report-box" aria-label="Export-ready markdown report" />
+      </div>
+
+      <div className="snapshot-lead-panel">
+        <div>
+          <h3>Want the 13-week cash view next?</h3>
+          <p>Use this snapshot as the first signal, then turn it into a weekly cash forecast before the numbers start throwing furniture.</p>
+        </div>
+        <a className="btn btn-primary" href="/tools/cash-runway">Build cash forecast</a>
       </div>
 
       <div className="snapshot-disclaimer">{summary.complianceDisclaimer}</div>
