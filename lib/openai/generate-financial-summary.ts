@@ -54,7 +54,7 @@ function fallbackCtas(calculation: FinancialSnapshotCalculation): FinancialSnaps
     },
     'run-funding-readiness-score': {
       label: 'Run Funding Readiness Score',
-      reason: 'Check documentation, cash flow, margins, debt, and use-of-funds gaps before applying.',
+      reason: 'Check documentation, cash flow, margins, and use-of-funds gaps before applying.',
       target: '/tools/funding-readiness'
     },
     'create-weekly-financial-review': {
@@ -197,14 +197,24 @@ const summarySchema = {
   }
 };
 
-function extractOutputText(responseBody: any): string | null {
-  if (typeof responseBody.output_text === 'string') return responseBody.output_text;
+function getRecord(value: unknown): Record<string, unknown> | null {
+  return value !== null && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : null;
+}
 
-  const output = Array.isArray(responseBody.output) ? responseBody.output : [];
+function extractOutputText(responseBody: unknown): string | null {
+  const responseRecord = getRecord(responseBody);
+  if (!responseRecord) return null;
+
+  if (typeof responseRecord.output_text === 'string') return responseRecord.output_text;
+
+  const output = Array.isArray(responseRecord.output) ? responseRecord.output : [];
   for (const item of output) {
-    const content = Array.isArray(item.content) ? item.content : [];
+    const itemRecord = getRecord(item);
+    const content = Array.isArray(itemRecord?.content) ? itemRecord.content : [];
+
     for (const contentItem of content) {
-      if (typeof contentItem.text === 'string') return contentItem.text;
+      const contentRecord = getRecord(contentItem);
+      if (typeof contentRecord?.text === 'string') return contentRecord.text;
     }
   }
 
@@ -274,7 +284,7 @@ export async function generateFinancialSummary(calculation: FinancialSnapshotCal
       return { summary: buildFallbackFinancialSummary(calculation), source: 'fallback' };
     }
 
-    const body = await response.json();
+    const body: unknown = await response.json();
     const outputText = extractOutputText(body);
 
     if (!outputText) {
