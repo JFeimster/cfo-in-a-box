@@ -1,0 +1,544 @@
+.snapshot-hero {
+  padding: 112px 0 58px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.snapshot-hero::before {
+  content: '';
+  position: absolute;
+  inset: -25% 0 auto;
+  height: 520px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(0,255,157,0.18), transparent 42%),
+    radial-gradient(circle at 72% 22%, rgba(255,184,0,0.09), transparent 28%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.snapshot-hero p {
+  max-width: 790px;
+  margin: 0 auto;
+  color: var(--text-muted);
+  font-size: 1.12rem;
+}
+
+.snapshot-app-hero {
+  padding-bottom: 34px;
+}
+
+.snapshot-app-note {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 24px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.035);
+  border-radius: 999px;
+  padding: 9px 13px;
+}
+
+.snapshot-app-note a {
+  color: var(--primary);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.snapshot-app-section {
+  padding-top: 42px;
+}
+
+.snapshot-shell {
+  display: grid;
+  gap: 34px;
+  position: relative;
+}
+
+.snapshot-shell::before {
+  content: 'INPUTS → SIGNAL → ACTION';
+  position: absolute;
+  right: 8px;
+  top: -32px;
+  color: var(--text-faint);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+}
+
+.snapshot-workflow-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  padding: 30px;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(0,255,157,0.10), transparent 36%),
+    linear-gradient(180deg, rgba(255,255,255,0.062), rgba(255,255,255,0.018));
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 28px;
+  box-shadow: var(--shadow-xl), inset 0 1px 0 rgba(255,255,255,0.06);
+  position: relative;
+  overflow: hidden;
+}
+
+.snapshot-workflow-form::before {
+  content: 'FINANCIAL SNAPSHOT INTAKE';
+  grid-column: 1 / -1;
+  color: var(--primary);
+  font-size: 0.72rem;
+  font-weight: 950;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.snapshot-full-width {
+  grid-column: 1 / -1;
+}
+
+.snapshot-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding-top: 8px;
+}
+
+.snapshot-form-actions p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.snapshot-error {
+  padding: 18px;
+  border: 1px solid rgba(255, 77, 77, 0.58);
+  background: rgba(255, 77, 77, 0.09);
+  color: #ffb3b3;
+  border-radius: 16px;
+  box-shadow: 0 0 34px rgba(255, 77, 77, 0.08);
+}
+
+.snapshot-results {
+  display: grid;
+  gap: 22px;
+  scroll-margin-top: 120px;
+}
+
+.snapshot-result-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: flex-start;
+  padding: 32px;
+  background:
+    radial-gradient(circle at 82% 0%, rgba(0,255,157,0.13), transparent 36%),
+    linear-gradient(135deg, rgba(255,255,255,0.066), rgba(255,255,255,0.018));
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 28px;
+  box-shadow: 0 32px 90px rgba(0,0,0,0.38);
+}
+
+.snapshot-result-header h2 {
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 0.98;
+  letter-spacing: -0.06em;
+  margin-bottom: 12px;
+}
+
+.snapshot-result-header p {
+  color: var(--text-muted);
+  max-width: 820px;
+}
+
+.snapshot-result-toolbar,
+.snapshot-panel-heading,
+.snapshot-export-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.snapshot-result-toolbar {
+  justify-content: flex-start;
+  margin-bottom: 12px;
+}
+
+.snapshot-source-note,
+.snapshot-panel-heading p,
+.snapshot-export-heading p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.risk-pill {
+  white-space: nowrap;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 950;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.risk-critical {
+  color: #ffb3b3;
+  background: rgba(255, 77, 77, 0.13);
+  border-color: rgba(255, 77, 77, 0.58);
+}
+
+.risk-elevated {
+  color: #ffd999;
+  background: rgba(255, 184, 0, 0.13);
+  border-color: rgba(255, 184, 0, 0.58);
+}
+
+.risk-watch {
+  color: #b8c7ff;
+  background: rgba(97, 165, 255, 0.12);
+  border-color: rgba(97, 165, 255, 0.48);
+}
+
+.risk-stable {
+  color: var(--primary);
+  background: rgba(0, 255, 157, 0.11);
+  border-color: rgba(0, 255, 157, 0.52);
+}
+
+.snapshot-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.snapshot-metric-grid .db-card {
+  min-height: 134px;
+  position: relative;
+  overflow: hidden;
+}
+
+.snapshot-metric-grid .db-card::after {
+  content: '';
+  position: absolute;
+  right: -38px;
+  top: -38px;
+  width: 96px;
+  height: 96px;
+  border-radius: 999px;
+  background: rgba(0,255,157,0.055);
+}
+
+.snapshot-panel {
+  padding: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.052), rgba(255,255,255,0.016));
+  border: 1px solid rgba(255,255,255,0.105);
+  border-radius: 22px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.snapshot-panel h3 {
+  margin-bottom: 12px;
+  letter-spacing: -0.035em;
+}
+
+.snapshot-panel p,
+.snapshot-panel li,
+.snapshot-cta-card span,
+.snapshot-disclaimer,
+.snapshot-lead-panel p,
+.snapshot-funnel-disclaimer {
+  color: var(--text-muted);
+}
+
+.snapshot-panel ul {
+  margin-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 9px;
+}
+
+.snapshot-panel li {
+  position: relative;
+  padding-left: 22px;
+}
+
+.snapshot-panel li::before {
+  content: '↳';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 900;
+}
+
+.snapshot-takeaway {
+  border-left: 3px solid var(--primary);
+  background:
+    linear-gradient(90deg, rgba(0,255,157,0.08), transparent 32%),
+    linear-gradient(180deg, rgba(255,255,255,0.052), rgba(255,255,255,0.016));
+}
+
+.snapshot-two-col,
+.snapshot-three-col,
+.snapshot-cta-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.snapshot-two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.snapshot-three-col {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.snapshot-cta-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.snapshot-cta-card {
+  display: grid;
+  gap: 10px;
+  text-decoration: none;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(0,255,157,0.08), transparent 38%),
+    rgba(255,255,255,0.035);
+  transition: 0.22s ease;
+  min-height: 190px;
+}
+
+.snapshot-cta-card small {
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+
+.snapshot-cta-card strong {
+  color: var(--primary);
+  line-height: 1.25;
+  font-size: 1.05rem;
+}
+
+.snapshot-cta-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0,255,157,0.46);
+  box-shadow: 0 18px 54px rgba(0,0,0,0.28), 0 0 34px rgba(0,255,157,0.10);
+}
+
+.snapshot-export-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.snapshot-export-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.snapshot-report-box {
+  width: 100%;
+  min-height: 380px;
+  resize: vertical;
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background:
+    linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
+    #030405;
+  background-size: 100% 28px;
+  color: var(--text-main);
+  font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  box-shadow: inset 0 0 32px rgba(0,0,0,0.34);
+}
+
+.snapshot-lead-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 30px;
+  border-radius: 26px;
+  border: 1px solid rgba(0, 255, 157, 0.40);
+  background:
+    radial-gradient(circle at top left, rgba(0, 255, 157, 0.16), transparent 38%),
+    radial-gradient(circle at 85% 0%, rgba(255, 184, 0, 0.10), transparent 34%),
+    rgba(12, 14, 18, 0.92);
+  box-shadow: 0 22px 72px rgba(0,0,0,0.32);
+}
+
+.snapshot-lead-panel h3 {
+  margin-bottom: 8px;
+  letter-spacing: -0.04em;
+}
+
+.snapshot-disclaimer {
+  padding: 18px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  font-size: 0.8rem;
+}
+
+.snapshot-landing-hero {
+  padding: 110px 0 82px;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(0, 255, 157, 0.16), transparent 32%),
+    radial-gradient(circle at 80% 10%, rgba(108, 59, 255, 0.18), transparent 30%);
+}
+
+.snapshot-landing-hero h1 {
+  max-width: 1010px;
+}
+
+.snapshot-landing-hero p {
+  max-width: 800px;
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  margin-top: 18px;
+}
+
+.snapshot-landing-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+
+.snapshot-landing-section {
+  padding: 82px 0;
+  border-top: 1px solid rgba(255,255,255,0.075);
+}
+
+.snapshot-landing-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.snapshot-landing-grid.reverse {
+  grid-template-columns: 0.9fr 1.1fr;
+}
+
+.snapshot-landing-copy h2,
+.snapshot-section-heading h2,
+.snapshot-final-card h2 {
+  margin-top: 14px;
+  max-width: 820px;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.snapshot-landing-copy p,
+.snapshot-section-heading p,
+.snapshot-final-card p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-top: 14px;
+}
+
+.snapshot-section-heading {
+  max-width: 780px;
+  margin-bottom: 28px;
+}
+
+.snapshot-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.snapshot-feature-card {
+  padding: 22px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.052), rgba(255,255,255,0.016));
+  border: 1px solid rgba(255,255,255,0.105);
+  border-radius: 20px;
+  color: var(--text-main);
+  font-weight: 900;
+  min-height: 120px;
+}
+
+.snapshot-final-cta {
+  padding: 80px 0 104px;
+  border-top: 1px solid rgba(255,255,255,0.075);
+}
+
+.snapshot-final-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 28px;
+  padding: 36px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(0, 255, 157, 0.18), transparent 38%),
+    linear-gradient(135deg, rgba(0, 255, 157, 0.08), rgba(12, 14, 18, 0.95));
+  border: 1px solid rgba(0, 255, 157, 0.38);
+  box-shadow: 0 22px 80px rgba(0,0,0,0.34);
+}
+
+.snapshot-funnel-disclaimer {
+  margin-top: 18px;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 1100px) {
+  .snapshot-cta-grid,
+  .snapshot-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .snapshot-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .snapshot-workflow-form,
+  .snapshot-metric-grid,
+  .snapshot-two-col,
+  .snapshot-three-col,
+  .snapshot-cta-grid,
+  .snapshot-landing-grid,
+  .snapshot-landing-grid.reverse,
+  .snapshot-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .snapshot-result-header,
+  .snapshot-lead-panel,
+  .snapshot-final-card,
+  .snapshot-app-note {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .snapshot-shell::before {
+    position: static;
+    margin-bottom: -12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .snapshot-workflow-form,
+  .snapshot-result-header,
+  .snapshot-panel,
+  .snapshot-lead-panel,
+  .snapshot-final-card {
+    padding: 22px;
+    border-radius: 22px;
+  }
+}
